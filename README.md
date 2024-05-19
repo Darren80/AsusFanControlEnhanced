@@ -19,7 +19,7 @@ Go to [releases](../../releases)
 
 GUI: `AsusFanControlGUI.exe`  
 
-![AsusFanControlGUI](https://github.com/Karmel0x/AsusFanControl/assets/25367564/fe197ad0-7079-4d51-ae78-177cb6369e96)
+![AsusFanControlGUI](https://github.com/Darren80/AsusFanControlEnhanced/blob/master/Screenshot%202024-05-19%20182647.png)
 
 ### Why need it?
 My laptop does not support the [Fan Profile](https://github.com/Karmel0x/AsusFanControl/assets/25367564/924d990a-bf20-4b8d-bf9d-56c460174d99) option, but it often overheats. Looked for apps to control fans, but none is working.
@@ -31,3 +31,16 @@ Included `AsusWinIO64.dll` is licenced to `(c) ASUSTek COMPUTER INC.` which can 
 
 Confirmed compatibility: 
 - ASUS VivoBook 15 X512FL
+- ASUS VivoBook 15 515JA
+- ASUS VivoBook 16x M1603QA
+- ASUS TUF Gaming FX705DY
+- ASUS TUF Gaming A15 FX506IV
+- ASUS TUF Gaming A15 FA506IC
+- ASUS TUF Gaming FX505DV
+- ASUS VivoBook 14 X412DA
+- ASUS Zenbook Pro Duo 15 (UX582ZW)
+- ASUS Vivobook Pro 16X (K6604)
+- ASUS TUF Gaming FX505D
+- ASUS TUF F15 - FX506HM
+- ASUS ZenBook 14 UM425QA-KI174W
+- ASUS ROG Strix G512LW
