@@ -11,5 +11,11 @@
     <Setting Name="forbidUnsafeSettings" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
+    <Setting Name="fanControlState" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Off</Value>
+    </Setting>
+    <Setting Name="FanCurvePoints" Type="System.String" Scope="User">
+      <Value Profile="(Default)">20,1-60,1-61,20-70,20-71,30-80,55</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
