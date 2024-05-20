@@ -19,7 +19,7 @@ Go to [releases](../../releases)
 
 GUI: `AsusFanControlGUI.exe`  
 
-![AsusFanControlGUI](https://github.com/Darren80/AsusFanControlEnhanced/blob/master/Screenshot%202024-05-19%20182647.png)
+![AsusFanControlGUI](https://github.com/Darren80/AsusFanControlEnhanced/blob/9bdf4b80158414a3258da22b16b35a36152eee8c/Screenshot%202024-05-20%20225642.png)
 
 ### Why need it?
 My laptop does not support the [Fan Profile](https://github.com/Karmel0x/AsusFanControl/assets/25367564/924d990a-bf20-4b8d-bf9d-56c460174d99) option, but it often overheats. Looked for apps to control fans, but none is working.
