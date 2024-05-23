@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Reflection;
 using System.Security.AccessControl;
@@ -13,7 +14,9 @@ using System.Windows.Forms;
 using AsusFanControl;
 using AsusFanControlGUI.Properties;
 using Microsoft.Win32;
+using static System.Security.Cryptography.ECCurve;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static AsusFanControlGUI.Form1;
 
 namespace AsusFanControlGUI
 {
@@ -21,7 +24,7 @@ namespace AsusFanControlGUI
     {
         private readonly Random rnd = new Random();
         readonly AsusControl asusControl = new AsusControl();
-        int fanSpeed = 0;
+        int currentFanSpeed = 0;
 
         public Form1()
         {
@@ -47,6 +50,8 @@ namespace AsusFanControlGUI
                 fanControl.Checked = Properties.Settings.Default.fanControlState == "Manual";
                 fanCurve.Checked = Properties.Settings.Default.fanControlState == "Curve";
                 allowFanCurveSettingViaTextToolStripMenuItem.Checked = Properties.Settings.Default.allowFanCurveSettingViaText;
+                numericUpDown1.Value = Properties.Settings.Default.hysteresis;
+                numericUpDown2.Value = Properties.Settings.Default.updateSpeed;
                 // Manually trigger events
                 radioButton1_CheckedChanged(radioButton1, EventArgs.Empty);
                 fanCurve_CheckedChanged(fanCurve, EventArgs.Empty);
@@ -81,7 +86,7 @@ namespace AsusFanControlGUI
                 return;
             }
 
-            Console.WriteLine($"Refreshing {rnd.Next(100)}");
+            //Console.WriteLine($"Refreshing {rnd.Next(100)}");
             // Update fan speeds and CPU temperature.
             // Run both tasks concurrently
             Task<string> fanSpeedsTask = Task.Run(() => string.Join(" ", asusControl.GetFanSpeeds()));
@@ -117,8 +122,8 @@ namespace AsusFanControlGUI
 
         private void OnProcessExit(object sender, EventArgs e)
         {
-            if (Properties.Settings.Default.turnOffControlOnExit)
-                setFanSpeed(0, null);
+        //    if (Properties.Settings.Default.turnOffControlOnExit)
+        //        asusControl.SetFanSpeeds(0);
         }
 
         private void toolStripMenuItemTurnOffControlOnExit_CheckedChanged(object sender, EventArgs e)
@@ -149,7 +154,7 @@ namespace AsusFanControlGUI
             }
         }
 
-        private void fanControl_CheckedChanged(object sender, EventArgs e)
+        private async void fanControl_CheckedChanged(object sender, EventArgs e)
         {
             if (fanControl.Checked)
             {
@@ -158,35 +163,36 @@ namespace AsusFanControlGUI
                 trackBarFanSpeed.Enabled = true;
 
                 trackBarSetFanSpeed();
+                await Task.Delay(2000);
+                fanControl_CheckedChanged(sender, e);
             }
             else
             {
-                trackBarFanSpeed.Enabled=false;
+                trackBarFanSpeed.Enabled = false;
             }
 
         }
 
-        bool turnedoff = false;
-        private async void setFanSpeed(int value, bool? isTurnedOn)
+        bool firstRun = true;
+        private async void setFanSpeed(int value, bool? xyz)
         {
-            if (fanSpeed == value)
+            if (currentFanSpeed == value)
                 return;
 
-            if (turnedoff && value == 0)
-                return;
-
-            fanSpeed = value;
             await Task.Run(() => asusControl.SetFanSpeeds(value));
+            currentFanSpeed = value;
 
             if (value == 0)
-            {
                 labelValue.Text = "turned off";
-                turnedoff = true;
-            }
             else
+                labelValue.Text = value.ToString() + "% (PWM Fan)";
+
+            if (firstRun)
             {
-                labelValue.Text = value.ToString() + "%";
-                turnedoff = false;
+                await Task.Delay(1000);
+                currentFanSpeed = 999999;
+                setFanSpeed(value, null);
+                firstRun = false;
             }
         }
 
@@ -205,6 +211,8 @@ namespace AsusFanControlGUI
 
             Decimal trackBarFanSpeedValue = trackBarFanSpeed.Value;
             label5.Text = trackBarFanSpeedValue.ToString() + "% Fan";
+            Console.WriteLine($"Setting speed to: {(int)trackBarFanSpeedValue}");
+            label3.Text = $"Setting speed to: {(int)trackBarFanSpeedValue}%";// (Stamp: {rnd.Next(1000)})";
 
             setFanSpeed((int)trackBarFanSpeedValue, fanControl.Checked);
         }
@@ -225,8 +233,8 @@ namespace AsusFanControlGUI
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            ulong fanSpeed = await Task.Run(() => asusControl.Thermal_Read_Cpu_Temperature());
-            labelCPUTemp.Text = $"{fanSpeed}";
+            ulong currentTemp = await Task.Run(() => asusControl.Thermal_Read_Cpu_Temperature());
+            labelCPUTemp.Text = $"{currentTemp}";
         }
 
         // My Code:
@@ -250,8 +258,11 @@ namespace AsusFanControlGUI
         const int tempMin = 20;
         const int tempMax = 100;
         const int tempInterval = 10;
+
         private void pictureBoxFanCurve_Paint(object sender, PaintEventArgs e)
         {
+
+
             // Get the graphics object to draw on the picture box
             Graphics g = e.Graphics;
 
@@ -268,6 +279,9 @@ namespace AsusFanControlGUI
                 int x = 40 + (temp - 20) * graphWidth / 80;
                 g.DrawLine(Pens.Black, x, pictureBoxFanCurve.Height - 40 - 5, x, pictureBoxFanCurve.Height - 40 + 5);
                 g.DrawString(temp.ToString(), Control.DefaultFont, Brushes.Black, x - 10, pictureBoxFanCurve.Height - 40 + 10);
+
+                // Draw vertical gridlines
+                g.DrawLine(Pens.LightGray, x, 40, x, pictureBoxFanCurve.Height - 40);
             }
 
             // Draw the X-axis label (Temperature)
@@ -282,6 +296,9 @@ namespace AsusFanControlGUI
                 int y = pictureBoxFanCurve.Height - 40 - speed * graphHeight / 100;
                 g.DrawLine(Pens.Black, 35, y, 45, y);
                 g.DrawString(speed.ToString(), Control.DefaultFont, Brushes.Black, 5f, y - 10);
+
+                // Draw horizontal gridlines
+                g.DrawLine(Pens.LightGray, 40, y, pictureBoxFanCurve.Width - 40, y);
             }
 
             // Draw the Y-axis label (Fan Speed)
@@ -304,6 +321,7 @@ namespace AsusFanControlGUI
                     .ToArray();
 
                 using Pen thickPen = new Pen(Color.Black, 3f);
+                thickPen.LineJoin = LineJoin.Round;
                 g.DrawLines(thickPen, graphPoints);
             }
         }
@@ -457,6 +475,43 @@ namespace AsusFanControlGUI
             runFanCurve();
         }
 
+        public enum CurveType
+        {
+            Linear,
+            Quadratic,
+            Cubic
+        }
+
+        double curvatureFactor = 0.5;
+
+        // Fan speed calculation
+        double CalculateFanSpeed(double currentTemp)
+        {
+            // Find the fan curve points that bracket the current temperature
+            KeyValuePair<int, Point> lowerPoint = fanCurvePoints.OrderByDescending(p => p.Value.X).FirstOrDefault(p => (ulong)p.Value.X <= currentTemp);
+            KeyValuePair<int, Point> upperPoint = fanCurvePoints.OrderBy(p => p.Value.X).FirstOrDefault(p => (ulong)p.Value.X >= currentTemp);
+
+            if (lowerPoint.Key == upperPoint.Key)
+            {
+                return lowerPoint.Value.Y;
+            }
+
+            // Check if the current temperature is within the range of the fan curve points
+            if (lowerPoint.Key == 0 || upperPoint.Key == 0)
+            {
+                // Temperature is outside the range, yield control to the system.
+                label3.Text = "Control yeilded to system when temprature is outside range.";
+                Console.WriteLine("Temperature is outside the range, yield control to the system.");
+                return 0;
+            }else
+            {
+                
+            }
+
+            double ratio = (currentTemp - lowerPoint.Value.X) / (upperPoint.Value.X - lowerPoint.Value.X);
+            return lowerPoint.Value.Y + (upperPoint.Value.Y - lowerPoint.Value.Y) * ratio;
+        }
+
         private async void runFanCurve()
         {
             if (!fanCurve.Checked)
@@ -464,56 +519,31 @@ namespace AsusFanControlGUI
                 label3.Text = $"";
                 return;
             }
-            Console.WriteLine("Fan Curve, " + (int)numericUpDown2.Value);
+            //Console.WriteLine("Fan Curve, " + (int)numericUpDown2.Value);
 
             // Read the current temperature
             ulong currentTemp = await Task.Run(() => asusControl.Thermal_Read_Cpu_Temperature()); // Implement the ReadTemperature method to get the current temperature
-            Console.WriteLine("Temp, " + currentTemp);
+            //Console.WriteLine("Temp, " + currentTemp);
+            
+            double fanSpeed = CalculateFanSpeed(currentTemp);
 
-            // Find the fan curve points that bracket the current temperature
-            KeyValuePair<int, Point> lowerPoint = fanCurvePoints.OrderByDescending(p => p.Value.X).FirstOrDefault(p => (ulong)p.Value.X <= currentTemp);
-            KeyValuePair<int, Point> upperPoint = fanCurvePoints.OrderBy(p => p.Value.X).FirstOrDefault(p => (ulong)p.Value.X >= currentTemp);
-
-            // Update UI on the main thread
-            label3.Text = $"Low: {lowerPoint.Value.X} High: {upperPoint.Value.X}";
-
-            // Check if the current temperature is within the range of the fan curve points
-            if (lowerPoint.Key == 0 || upperPoint.Key == 0)
+            // Apply hysteresis to prevent rapid fan speed changes
+            int hysteresis = (int)numericUpDown1.Value; // Adjust the hysteresis value as needed
+            if ((int)currentTemp > lastTemperature + hysteresis || (int)currentTemp < lastTemperature - hysteresis || fanSpeed < 10)
             {
-                // Temperature is outside the range, yield control to the system.
-                label3.Text = "Control yeilded to system when outside range.";
-                Console.WriteLine("Temperature is outside the range, yield control to the system.");
-                setFanSpeed(0, null);
-            }
-            else if (lowerPoint.Value.X == upperPoint.Value.X)
-            {
-                setFanSpeed(lowerPoint.Value.Y, true); // Implement the SetFanSpeed method to control the fan speed
+                // Update the fan speed
+                fanSpeed = Math.Max(0, Math.Min(100, fanSpeed));
+                setFanSpeed((int)fanSpeed, true); // Implement the SetFanSpeed method to control the fan speed
 
-                Console.WriteLine($"Set fan speed to {lowerPoint.Value.Y}% {rnd.Next(1000)}, last fan speed = {lastFanSpeed}");
-                lastFanSpeed = lowerPoint.Value.Y;
-            }
-            else
-            {
-                // Calculate the fan speed based on linear interpolation between the bracket points
-                int fanSpeed;
-                double ratio = (currentTemp - (ulong)lowerPoint.Value.X) / (double)(upperPoint.Value.X - lowerPoint.Value.X);
-                fanSpeed = (int)(lowerPoint.Value.Y + (upperPoint.Value.Y - lowerPoint.Value.Y) * ratio);
-
-
-                // Apply hysteresis to prevent rapid fan speed changes
-                int hysteresis = (int)numericUpDown1.Value; // Adjust the hysteresis value as needed
-                if (fanSpeed > lastFanSpeed + hysteresis || fanSpeed < lastFanSpeed - hysteresis || fanSpeed < 10)
+                Console.WriteLine($"Set fan speed to {(int)fanSpeed}% {rnd.Next(1000)}, last fan speed = {lastTemperature}");
+                if (fanSpeed != 0)
                 {
-                    // Update the fan speed
-                    fanSpeed = Math.Max(1, Math.Min(100, fanSpeed));
-                    setFanSpeed(fanSpeed, true); // Implement the SetFanSpeed method to control the fan speed
-
-                    Console.WriteLine($"Set fan speed to {fanSpeed}% {rnd.Next(1000)}, last fan speed = {lastFanSpeed}");
-                    lastFanSpeed = fanSpeed;
-
+                    label3.Text = $"Set fan speed to {(int)fanSpeed}%, current temp: {currentTemp}°C";// (Stamp: {rnd.Next(1000)})";
                 }
+                lastTemperature = (int)currentTemp;
 
-            };
+            }
+
             await Task.Delay((int)numericUpDown2.Value);
             runFanCurve();
 
@@ -521,7 +551,7 @@ namespace AsusFanControlGUI
         }
 
         // Keep track of the last fan speed to apply hysteresis
-        private int lastFanSpeed = 0;
+        private int lastTemperature = 0;
 
 
 
@@ -629,11 +659,6 @@ namespace AsusFanControlGUI
             trackBarSetFanSpeed();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void resetToDefaultsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Reset();
@@ -719,6 +744,28 @@ namespace AsusFanControlGUI
             }
         }
 
+        private void toolStripComboBox1_TextChanged(object sender, EventArgs e)
+        {
+            pictureBoxFanCurve.Invalidate();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (Properties.Settings.Default.turnOffControlOnExit)
+                asusControl.SetFanSpeeds(0);
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.hysteresis = (int)numericUpDown1.Value;
+            Properties.Settings.Default.Save();
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.updateSpeed = (int)numericUpDown2.Value;
+            Properties.Settings.Default.Save();
+        }
 
         //notifyIcon1.BalloonTipText = string.Join(" ", asusControl.GetFanSpeeds()) + $" Temp: {asusControl.Thermal_Read_Cpu_Temperature()}";       }
     }

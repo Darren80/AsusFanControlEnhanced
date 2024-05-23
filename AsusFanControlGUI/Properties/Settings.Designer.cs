@@ -118,5 +118,29 @@ namespace AsusFanControlGUI.Properties {
                 this["startMinimised"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public int hysteresis {
+            get {
+                return ((int)(this["hysteresis"]));
+            }
+            set {
+                this["hysteresis"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
+        public int updateSpeed {
+            get {
+                return ((int)(this["updateSpeed"]));
+            }
+            set {
+                this["updateSpeed"] = value;
+            }
+        }
     }
 }
