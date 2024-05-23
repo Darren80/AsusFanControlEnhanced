@@ -150,6 +150,7 @@ namespace AsusFanControlGUI
                 Properties.Settings.Default.fanControlState = "Off";
                 Properties.Settings.Default.Save();
 
+                notifyIcon1.Text = $"AsusFanControlEnhanced - Off";
                 setFanSpeed(0, null);
             }
         }
@@ -213,6 +214,9 @@ namespace AsusFanControlGUI
             label5.Text = trackBarFanSpeedValue.ToString() + "% Fan";
             Console.WriteLine($"Setting speed to: {(int)trackBarFanSpeedValue}");
             label3.Text = $"Setting speed to: {(int)trackBarFanSpeedValue}%";// (Stamp: {rnd.Next(1000)})";
+            notifyIcon1.Text = $"AsusFanControlEnhanced - Fan Speed: {(int)trackBarFanSpeedValue}%";
+            if ((int)trackBarFanSpeedValue == 0)
+                notifyIcon1.Text = $"AsusFanControlEnhanced - Off";
 
             setFanSpeed((int)trackBarFanSpeedValue, fanControl.Checked);
         }
@@ -502,6 +506,7 @@ namespace AsusFanControlGUI
                 // Temperature is outside the range, yield control to the system.
                 label3.Text = "Control yeilded to system when temprature is outside range.";
                 Console.WriteLine("Temperature is outside the range, yield control to the system.");
+                notifyIcon1.Text = $"AsusFanControlEnhanced - Off";
                 return 0;
             }else
             {
@@ -539,6 +544,7 @@ namespace AsusFanControlGUI
                 if (fanSpeed != 0)
                 {
                     label3.Text = $"Set fan speed to {(int)fanSpeed}%, current temp: {currentTemp}°C";// (Stamp: {rnd.Next(1000)})";
+                    notifyIcon1.Text = $"AsusFanControlEnhanced - Current Temp: {(int)currentTemp}°C - Fan Speed: {(int)fanSpeed}%";
                 }
                 lastTemperature = (int)currentTemp;
 
