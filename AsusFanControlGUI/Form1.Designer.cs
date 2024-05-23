@@ -45,6 +45,10 @@
             this.toolStripMenuItemForbidUnsafeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.allowFanCurveSettingViaTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToDefaultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startupSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startMinimisedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBoxFanCurve = new System.Windows.Forms.PictureBox();
@@ -70,10 +74,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startupSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startMinimisedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFanSpeed)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFanCurve)).BeginInit();
@@ -100,18 +101,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 534);
+            this.label1.Location = new System.Drawing.Point(13, 566);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 16);
             this.label1.TabIndex = 1;
             this.label1.Text = "Current value:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // labelValue
             // 
             this.labelValue.AutoSize = true;
-            this.labelValue.Location = new System.Drawing.Point(118, 534);
+            this.labelValue.Location = new System.Drawing.Point(118, 566);
             this.labelValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelValue.Name = "labelValue";
             this.labelValue.Size = new System.Drawing.Size(11, 16);
@@ -121,7 +121,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(50, 566);
+            this.label2.Location = new System.Drawing.Point(50, 598);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 16);
@@ -130,7 +130,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 560);
+            this.button1.Location = new System.Drawing.Point(13, 592);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(29, 28);
@@ -142,7 +142,7 @@
             // labelRPM
             // 
             this.labelRPM.AutoSize = true;
-            this.labelRPM.Location = new System.Drawing.Point(153, 566);
+            this.labelRPM.Location = new System.Drawing.Point(153, 598);
             this.labelRPM.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelRPM.Name = "labelRPM";
             this.labelRPM.Size = new System.Drawing.Size(11, 16);
@@ -152,7 +152,7 @@
             // labelCPUTemp
             // 
             this.labelCPUTemp.AutoSize = true;
-            this.labelCPUTemp.Location = new System.Drawing.Point(185, 602);
+            this.labelCPUTemp.Location = new System.Drawing.Point(185, 634);
             this.labelCPUTemp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCPUTemp.Name = "labelCPUTemp";
             this.labelCPUTemp.Size = new System.Drawing.Size(11, 16);
@@ -161,7 +161,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(13, 596);
+            this.button2.Location = new System.Drawing.Point(13, 628);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(29, 28);
@@ -173,7 +173,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(50, 602);
+            this.label4.Location = new System.Drawing.Point(50, 634);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(116, 16);
@@ -185,8 +185,8 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
-            this.toolStripMenuItemCheckForUpdates,
-            this.optionsToolStripMenuItem});
+            this.optionsToolStripMenuItem,
+            this.toolStripMenuItemCheckForUpdates});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(595, 28);
@@ -201,7 +201,7 @@
             this.allowFanCurveSettingViaTextToolStripMenuItem,
             this.resetToDefaultsToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 26);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 24);
             this.toolStripMenuItem1.Text = "Advanced";
             // 
             // toolStripMenuItemTurnOffControlOnExit
@@ -235,10 +235,43 @@
             this.resetToDefaultsToolStripMenuItem.Text = "Reset to defaults";
             this.resetToDefaultsToolStripMenuItem.Click += new System.EventHandler(this.resetToDefaultsToolStripMenuItem_Click);
             // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startupSettingsToolStripMenuItem});
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
+            this.optionsToolStripMenuItem.Text = "Options";
+            // 
+            // startupSettingsToolStripMenuItem
+            // 
+            this.startupSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startMinimisedToolStripMenuItem,
+            this.startWithWindowsToolStripMenuItem});
+            this.startupSettingsToolStripMenuItem.Name = "startupSettingsToolStripMenuItem";
+            this.startupSettingsToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
+            this.startupSettingsToolStripMenuItem.Text = "Startup Settings";
+            // 
+            // startMinimisedToolStripMenuItem
+            // 
+            this.startMinimisedToolStripMenuItem.CheckOnClick = true;
+            this.startMinimisedToolStripMenuItem.Name = "startMinimisedToolStripMenuItem";
+            this.startMinimisedToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.startMinimisedToolStripMenuItem.Text = "Start Minimised";
+            this.startMinimisedToolStripMenuItem.Click += new System.EventHandler(this.startMinimisedToolStripMenuItem_Click);
+            // 
+            // startWithWindowsToolStripMenuItem
+            // 
+            this.startWithWindowsToolStripMenuItem.CheckOnClick = true;
+            this.startWithWindowsToolStripMenuItem.Name = "startWithWindowsToolStripMenuItem";
+            this.startWithWindowsToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.startWithWindowsToolStripMenuItem.Text = "Start with Windows";
+            this.startWithWindowsToolStripMenuItem.Click += new System.EventHandler(this.startWithWindowsToolStripMenuItem1_Click_1);
+            // 
             // toolStripMenuItemCheckForUpdates
             // 
             this.toolStripMenuItemCheckForUpdates.Name = "toolStripMenuItemCheckForUpdates";
-            this.toolStripMenuItemCheckForUpdates.Size = new System.Drawing.Size(142, 26);
+            this.toolStripMenuItemCheckForUpdates.Size = new System.Drawing.Size(142, 24);
             this.toolStripMenuItemCheckForUpdates.Text = "Check for updates";
             this.toolStripMenuItemCheckForUpdates.Click += new System.EventHandler(this.toolStripMenuItemCheckForUpdates_Click);
             // 
@@ -391,6 +424,7 @@
             0,
             0,
             0});
+            this.numericUpDown1.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
             // 
             // groupBox2
             // 
@@ -400,7 +434,7 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.numericUpDown1);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(364, 537);
+            this.groupBox2.Location = new System.Drawing.Point(364, 569);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(214, 87);
             this.groupBox2.TabIndex = 19;
@@ -447,10 +481,11 @@
             this.numericUpDown2.Size = new System.Drawing.Size(68, 22);
             this.numericUpDown2.TabIndex = 22;
             this.numericUpDown2.Value = new decimal(new int[] {
-            3000,
+            2000,
             0,
             0,
             0});
+            this.numericUpDown2.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
             // 
             // label7
             // 
@@ -463,7 +498,7 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(12, 656);
+            this.label3.Location = new System.Drawing.Point(12, 688);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(574, 16);
             this.label3.TabIndex = 20;
@@ -484,49 +519,25 @@
             // label10
             // 
             this.label10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label10.Location = new System.Drawing.Point(12, 645);
+            this.label10.Location = new System.Drawing.Point(12, 677);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(574, 2);
             this.label10.TabIndex = 24;
             // 
-            // optionsToolStripMenuItem
+            // label11
             // 
-            this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startupSettingsToolStripMenuItem});
-            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
-            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 26);
-            this.optionsToolStripMenuItem.Text = "Options";
-            // 
-            // startupSettingsToolStripMenuItem
-            // 
-            this.startupSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startMinimisedToolStripMenuItem,
-            this.startWithWindowsToolStripMenuItem});
-            this.startupSettingsToolStripMenuItem.Name = "startupSettingsToolStripMenuItem";
-            this.startupSettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.startupSettingsToolStripMenuItem.Text = "Startup Settings";
-            // 
-            // startMinimisedToolStripMenuItem
-            // 
-            this.startMinimisedToolStripMenuItem.CheckOnClick = true;
-            this.startMinimisedToolStripMenuItem.Name = "startMinimisedToolStripMenuItem";
-            this.startMinimisedToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.startMinimisedToolStripMenuItem.Text = "Start Minimised";
-            this.startMinimisedToolStripMenuItem.Click += new System.EventHandler(this.startMinimisedToolStripMenuItem_Click);
-            // 
-            // startWithWindowsToolStripMenuItem
-            // 
-            this.startWithWindowsToolStripMenuItem.CheckOnClick = true;
-            this.startWithWindowsToolStripMenuItem.Name = "startWithWindowsToolStripMenuItem";
-            this.startWithWindowsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.startWithWindowsToolStripMenuItem.Text = "Start with Windows";
-            this.startWithWindowsToolStripMenuItem.Click += new System.EventHandler(this.startWithWindowsToolStripMenuItem1_Click_1);
+            this.label11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label11.Location = new System.Drawing.Point(15, 542);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(574, 2);
+            this.label11.TabIndex = 25;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(595, 685);
+            this.ClientSize = new System.Drawing.Size(595, 716);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
@@ -549,6 +560,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "AsusFanControlEnhanced";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Shown += new System.EventHandler(this.Form1_Shown);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFanSpeed)).EndInit();
@@ -613,6 +625,7 @@
         private System.Windows.Forms.ToolStripMenuItem startupSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startMinimisedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startWithWindowsToolStripMenuItem;
+        private System.Windows.Forms.Label label11;
     }
 }
 
