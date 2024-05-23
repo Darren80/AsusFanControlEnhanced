@@ -82,5 +82,41 @@ namespace AsusFanControlGUI.Properties {
                 this["FanCurvePoints"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool allowFanCurveSettingViaText {
+            get {
+                return ((bool)(this["allowFanCurveSettingViaText"]));
+            }
+            set {
+                this["allowFanCurveSettingViaText"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool startWithWindows {
+            get {
+                return ((bool)(this["startWithWindows"]));
+            }
+            set {
+                this["startWithWindows"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool startMinimised {
+            get {
+                return ((bool)(this["startMinimised"]));
+            }
+            set {
+                this["startMinimised"] = value;
+            }
+        }
     }
 }
