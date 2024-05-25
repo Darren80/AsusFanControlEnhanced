@@ -44,11 +44,12 @@
             this.toolStripMenuItemTurnOffControlOnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemForbidUnsafeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.allowFanCurveSettingViaTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToDefaultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startupSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startMinimisedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restartApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToDefaultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBoxFanCurve = new System.Windows.Forms.PictureBox();
@@ -198,8 +199,7 @@
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemTurnOffControlOnExit,
             this.toolStripMenuItemForbidUnsafeSettings,
-            this.allowFanCurveSettingViaTextToolStripMenuItem,
-            this.resetToDefaultsToolStripMenuItem});
+            this.allowFanCurveSettingViaTextToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 24);
             this.toolStripMenuItem1.Text = "Advanced";
@@ -228,20 +228,16 @@
             this.allowFanCurveSettingViaTextToolStripMenuItem.Text = "Allow FanCurve Seting via Text";
             this.allowFanCurveSettingViaTextToolStripMenuItem.Click += new System.EventHandler(this.allowFanCurveSettingViaTextToolStripMenuItem_Click);
             // 
-            // resetToDefaultsToolStripMenuItem
-            // 
-            this.resetToDefaultsToolStripMenuItem.Name = "resetToDefaultsToolStripMenuItem";
-            this.resetToDefaultsToolStripMenuItem.Size = new System.Drawing.Size(293, 26);
-            this.resetToDefaultsToolStripMenuItem.Text = "Reset to defaults";
-            this.resetToDefaultsToolStripMenuItem.Click += new System.EventHandler(this.resetToDefaultsToolStripMenuItem_Click);
-            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startupSettingsToolStripMenuItem});
+            this.startupSettingsToolStripMenuItem,
+            this.restartApplicationToolStripMenuItem,
+            this.resetToDefaultsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // startupSettingsToolStripMenuItem
             // 
@@ -249,14 +245,14 @@
             this.startMinimisedToolStripMenuItem,
             this.startWithWindowsToolStripMenuItem});
             this.startupSettingsToolStripMenuItem.Name = "startupSettingsToolStripMenuItem";
-            this.startupSettingsToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
-            this.startupSettingsToolStripMenuItem.Text = "Startup Settings";
+            this.startupSettingsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.startupSettingsToolStripMenuItem.Text = "Startup settings";
             // 
             // startMinimisedToolStripMenuItem
             // 
             this.startMinimisedToolStripMenuItem.CheckOnClick = true;
             this.startMinimisedToolStripMenuItem.Name = "startMinimisedToolStripMenuItem";
-            this.startMinimisedToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.startMinimisedToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.startMinimisedToolStripMenuItem.Text = "Start Minimised";
             this.startMinimisedToolStripMenuItem.Click += new System.EventHandler(this.startMinimisedToolStripMenuItem_Click);
             // 
@@ -264,9 +260,23 @@
             // 
             this.startWithWindowsToolStripMenuItem.CheckOnClick = true;
             this.startWithWindowsToolStripMenuItem.Name = "startWithWindowsToolStripMenuItem";
-            this.startWithWindowsToolStripMenuItem.Size = new System.Drawing.Size(220, 26);
+            this.startWithWindowsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.startWithWindowsToolStripMenuItem.Text = "Start with Windows";
             this.startWithWindowsToolStripMenuItem.Click += new System.EventHandler(this.startWithWindowsToolStripMenuItem1_Click_1);
+            // 
+            // restartApplicationToolStripMenuItem
+            // 
+            this.restartApplicationToolStripMenuItem.Name = "restartApplicationToolStripMenuItem";
+            this.restartApplicationToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.restartApplicationToolStripMenuItem.Text = "Restart application";
+            this.restartApplicationToolStripMenuItem.Click += new System.EventHandler(this.restartApplicationToolStripMenuItem_Click);
+            // 
+            // resetToDefaultsToolStripMenuItem
+            // 
+            this.resetToDefaultsToolStripMenuItem.Name = "resetToDefaultsToolStripMenuItem";
+            this.resetToDefaultsToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.resetToDefaultsToolStripMenuItem.Text = "Reset to defaults";
+            this.resetToDefaultsToolStripMenuItem.Click += new System.EventHandler(this.resetToDefaultsToolStripMenuItem_Click);
             // 
             // toolStripMenuItemCheckForUpdates
             // 
@@ -618,7 +628,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ToolStripMenuItem resetToDefaultsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem allowFanCurveSettingViaTextToolStripMenuItem;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
@@ -626,6 +635,8 @@
         private System.Windows.Forms.ToolStripMenuItem startMinimisedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startWithWindowsToolStripMenuItem;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ToolStripMenuItem restartApplicationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetToDefaultsToolStripMenuItem;
     }
 }
 

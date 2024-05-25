@@ -25,6 +25,7 @@ namespace AsusFanControlGUI
         private readonly Random rnd = new Random();
         readonly AsusControl asusControl = new AsusControl();
         int currentFanSpeed = 0;
+        ulong currentTemp = 0;
 
         public Form1()
         {
@@ -41,6 +42,8 @@ namespace AsusFanControlGUI
         {
             if (IsHandleCreated)
             {
+                startErrorHandler();
+
                 toolStripMenuItemTurnOffControlOnExit.Checked = Properties.Settings.Default.turnOffControlOnExit;
                 toolStripMenuItemForbidUnsafeSettings.Checked = Properties.Settings.Default.forbidUnsafeSettings;
                 startMinimisedToolStripMenuItem.Checked = Properties.Settings.Default.startMinimised;
@@ -77,6 +80,30 @@ namespace AsusFanControlGUI
             }
         }
 
+        private async void startErrorHandler()
+        {
+            int minTemp = 1;
+            int maxTemp = 200;
+            Console.WriteLine("Running");
+            if ((fanCurve.Checked || fanControl.Checked) && (currentTemp < (ulong)minTemp || currentTemp > (ulong)maxTemp))
+            {
+                // Give it a second chance
+                await Task.Delay(1000);
+                ulong temp = await Task.Run(() => asusControl.Thermal_Read_Cpu_Temperature());
+                if (temp >= (ulong)minTemp && temp < (ulong)maxTemp)
+                {
+                    return;
+                }
+
+                Properties.Settings.Default.wasError = true;
+                Properties.Settings.Default.errorMsg = $"CPU temprature were outside of good range at {currentTemp}°C, either something has not loaded properly or CPU sensors are faulty.";
+                Properties.Settings.Default.Save();
+                Console.WriteLine("Restarting");
+                Application.Restart();
+                Environment.Exit(0);
+            }
+        }
+
         private async void Timer_Tick()
         {
             if (WindowState == FormWindowState.Minimized)
@@ -98,6 +125,8 @@ namespace AsusFanControlGUI
             // Get the results from the completed tasks
             labelRPM.Text = fanSpeedsTask.Result;
             labelCPUTemp.Text = cpuTempTask.Result;
+            currentTemp = (ulong)Decimal.Parse(cpuTempTask.Result);
+            startErrorHandler();
 
             await Task.Delay(250);
             Timer_Tick();
@@ -237,8 +266,10 @@ namespace AsusFanControlGUI
 
         private async void button2_Click(object sender, EventArgs e)
         {
-            ulong currentTemp = await Task.Run(() => asusControl.Thermal_Read_Cpu_Temperature());
-            labelCPUTemp.Text = $"{currentTemp}";
+            ulong temp = await Task.Run(() => asusControl.Thermal_Read_Cpu_Temperature());
+            currentTemp = temp;
+            labelCPUTemp.Text = $"{temp}";
+            startErrorHandler();
         }
 
         // My Code:
@@ -527,14 +558,16 @@ namespace AsusFanControlGUI
             //Console.WriteLine("Fan Curve, " + (int)numericUpDown2.Value);
 
             // Read the current temperature
-            ulong currentTemp = await Task.Run(() => asusControl.Thermal_Read_Cpu_Temperature()); // Implement the ReadTemperature method to get the current temperature
+            ulong temp = await Task.Run(() => asusControl.Thermal_Read_Cpu_Temperature()); // Implement the ReadTemperature method to get the current temperature
+            currentTemp = temp;
+            startErrorHandler();
             //Console.WriteLine("Temp, " + currentTemp);
-            
-            double fanSpeed = CalculateFanSpeed(currentTemp);
+
+            double fanSpeed = CalculateFanSpeed(temp);
 
             // Apply hysteresis to prevent rapid fan speed changes
             int hysteresis = (int)numericUpDown1.Value; // Adjust the hysteresis value as needed
-            if ((int)currentTemp > lastTemperature + hysteresis || (int)currentTemp < lastTemperature - hysteresis || fanSpeed < 10)
+            if ((int)temp > lastTemperature + hysteresis || (int)temp < lastTemperature - hysteresis || fanSpeed < 10)
             {
                 // Update the fan speed
                 fanSpeed = Math.Max(0, Math.Min(100, fanSpeed));
@@ -543,10 +576,10 @@ namespace AsusFanControlGUI
                 Console.WriteLine($"Set fan speed to {(int)fanSpeed}% {rnd.Next(1000)}, last fan speed = {lastTemperature}");
                 if (fanSpeed != 0)
                 {
-                    label3.Text = $"Set fan speed to {(int)fanSpeed}%, current temp: {currentTemp}°C";// (Stamp: {rnd.Next(1000)})";
-                    notifyIcon1.Text = $"AsusFanControlEnhanced - Current Temp: {(int)currentTemp}°C - Fan Speed: {(int)fanSpeed}%";
+                    label3.Text = $"Set fan speed to {(int)fanSpeed}%, current temp: {temp}°C";// (Stamp: {rnd.Next(1000)})";
+                    notifyIcon1.Text = $"AsusFanControlEnhanced - Current Temp: {(int)temp}°C - Fan Speed: {(int)fanSpeed}%";
                 }
-                lastTemperature = (int)currentTemp;
+                lastTemperature = (int)temp;
 
             }
 
@@ -580,6 +613,7 @@ namespace AsusFanControlGUI
             Show();
             WindowState = FormWindowState.Normal;
             notifyIcon1.Visible = false;
+            mayShowError();
         }
 
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -594,6 +628,7 @@ namespace AsusFanControlGUI
                 Show();
                 WindowState = FormWindowState.Normal;
                 notifyIcon1.Visible = false;
+                mayShowError();
             }
         }
 
@@ -663,13 +698,6 @@ namespace AsusFanControlGUI
         private void trackBarFanSpeed_MouseUp(object sender, MouseEventArgs e)
         {
             trackBarSetFanSpeed();
-        }
-
-        private void resetToDefaultsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Properties.Settings.Default.Reset();
-           Application.Restart();
-            Environment.Exit(0);
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -747,6 +775,21 @@ namespace AsusFanControlGUI
             if (startMinimized)
             {
                 MinimizeToTray();
+                return;
+            }
+
+            mayShowError();
+        }
+
+        private void mayShowError()
+        {
+            Console.WriteLine($"asdad: {Properties.Settings.Default.wasError}");
+            if (Properties.Settings.Default.wasError == true)
+            {
+                MessageBox.Show($"An error caused the application to restart:\n\nError: {Properties.Settings.Default.errorMsg}");
+                Properties.Settings.Default.wasError = false;
+                Properties.Settings.Default.errorMsg = "";
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -771,6 +814,24 @@ namespace AsusFanControlGUI
         {
             Properties.Settings.Default.updateSpeed = (int)numericUpDown2.Value;
             Properties.Settings.Default.Save();
+        }
+
+        private void resetToDefaultsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Reset();
+            Application.Restart();
+            Environment.Exit(0);
+        }
+
+        private void restartApplicationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Restart();
+            Environment.Exit(0);
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
 
         //notifyIcon1.BalloonTipText = string.Join(" ", asusControl.GetFanSpeeds()) + $" Temp: {asusControl.Thermal_Read_Cpu_Temperature()}";       }
