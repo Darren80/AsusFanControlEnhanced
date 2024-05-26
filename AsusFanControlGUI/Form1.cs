@@ -380,6 +380,9 @@ namespace AsusFanControlGUI
             fanCurvePoints[newID] = newPoint;
 
             pictureBoxFanCurve.Invalidate(); // Redraw the graph
+
+            //
+            runFanCurve(true, true);
         }
 
         private int selectedPointId = 0;
@@ -490,6 +493,7 @@ namespace AsusFanControlGUI
             selectedPointId = 0;
             toolTip1.SetToolTip(pictureBoxFanCurve, "Fan Curve Graph");
             SaveFanCurvePoints();
+            runFanCurve(true, true);
 
             // fanCurvePoints.ToList().ForEach(point => Console.Write($"ID: {point.Key}, X: {point.Value.X}, Y: {point.Value.Y}"));
             // Console.WriteLine();
@@ -548,7 +552,7 @@ namespace AsusFanControlGUI
             return lowerPoint.Value.Y + (upperPoint.Value.Y - lowerPoint.Value.Y) * ratio;
         }
 
-        private async void runFanCurve()
+        private async void runFanCurve(bool bypassHysteresisCheck=false, bool runOnce=false)
         {
             if (!fanCurve.Checked)
             {
@@ -567,7 +571,7 @@ namespace AsusFanControlGUI
 
             // Apply hysteresis to prevent rapid fan speed changes
             int hysteresis = (int)numericUpDown1.Value; // Adjust the hysteresis value as needed
-            if ((int)temp > lastTemperature + hysteresis || (int)temp < lastTemperature - hysteresis || fanSpeed < 10)
+            if ((int)temp > lastTemperature + hysteresis || (int)temp < lastTemperature - hysteresis || fanSpeed < 10 || bypassHysteresisCheck)
             {
                 // Update the fan speed
                 fanSpeed = Math.Max(0, Math.Min(100, fanSpeed));
@@ -583,10 +587,11 @@ namespace AsusFanControlGUI
 
             }
 
-            await Task.Delay((int)numericUpDown2.Value);
-            runFanCurve();
-
-
+            if (!runOnce)
+            {
+                await Task.Delay((int)numericUpDown2.Value);
+                runFanCurve();
+            }
         }
 
         // Keep track of the last fan speed to apply hysteresis
@@ -832,6 +837,20 @@ namespace AsusFanControlGUI
         private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void trackBarFanSpeed_ValueChanged(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void trackBarFanSpeed_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                // Show the tooltip
+                toolTip1.Show(trackBarFanSpeed.Value.ToString(), trackBarFanSpeed, 0, -20, 2000);
+            }
         }
 
         //notifyIcon1.BalloonTipText = string.Join(" ", asusControl.GetFanSpeeds()) + $" Temp: {asusControl.Thermal_Read_Cpu_Temperature()}";       }
