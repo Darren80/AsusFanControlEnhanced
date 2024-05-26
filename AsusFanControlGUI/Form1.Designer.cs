@@ -44,11 +44,12 @@
             this.toolStripMenuItemTurnOffControlOnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemForbidUnsafeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.allowFanCurveSettingViaTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToDefaultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startupSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startMinimisedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startWithWindowsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.restartApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.resetToDefaultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBoxFanCurve = new System.Windows.Forms.PictureBox();
@@ -88,20 +89,22 @@
             // trackBarFanSpeed
             // 
             this.trackBarFanSpeed.Enabled = false;
-            this.trackBarFanSpeed.Location = new System.Drawing.Point(17, 94);
+            this.trackBarFanSpeed.Location = new System.Drawing.Point(17, 96);
             this.trackBarFanSpeed.Margin = new System.Windows.Forms.Padding(4);
             this.trackBarFanSpeed.Maximum = 100;
             this.trackBarFanSpeed.Name = "trackBarFanSpeed";
-            this.trackBarFanSpeed.Size = new System.Drawing.Size(400, 56);
+            this.trackBarFanSpeed.Size = new System.Drawing.Size(519, 56);
             this.trackBarFanSpeed.TabIndex = 0;
             this.trackBarFanSpeed.Value = 100;
+            this.trackBarFanSpeed.ValueChanged += new System.EventHandler(this.trackBarFanSpeed_ValueChanged);
             this.trackBarFanSpeed.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trackBarFanSpeed_KeyUp);
+            this.trackBarFanSpeed.MouseMove += new System.Windows.Forms.MouseEventHandler(this.trackBarFanSpeed_MouseMove);
             this.trackBarFanSpeed.MouseUp += new System.Windows.Forms.MouseEventHandler(this.trackBarFanSpeed_MouseUp);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 566);
+            this.label1.Location = new System.Drawing.Point(13, 629);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(88, 16);
@@ -111,7 +114,7 @@
             // labelValue
             // 
             this.labelValue.AutoSize = true;
-            this.labelValue.Location = new System.Drawing.Point(118, 566);
+            this.labelValue.Location = new System.Drawing.Point(118, 629);
             this.labelValue.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelValue.Name = "labelValue";
             this.labelValue.Size = new System.Drawing.Size(11, 16);
@@ -121,7 +124,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(50, 598);
+            this.label2.Location = new System.Drawing.Point(50, 661);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 16);
@@ -130,7 +133,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(13, 592);
+            this.button1.Location = new System.Drawing.Point(13, 655);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(29, 28);
@@ -142,7 +145,7 @@
             // labelRPM
             // 
             this.labelRPM.AutoSize = true;
-            this.labelRPM.Location = new System.Drawing.Point(153, 598);
+            this.labelRPM.Location = new System.Drawing.Point(153, 661);
             this.labelRPM.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelRPM.Name = "labelRPM";
             this.labelRPM.Size = new System.Drawing.Size(11, 16);
@@ -152,7 +155,7 @@
             // labelCPUTemp
             // 
             this.labelCPUTemp.AutoSize = true;
-            this.labelCPUTemp.Location = new System.Drawing.Point(185, 634);
+            this.labelCPUTemp.Location = new System.Drawing.Point(185, 697);
             this.labelCPUTemp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCPUTemp.Name = "labelCPUTemp";
             this.labelCPUTemp.Size = new System.Drawing.Size(11, 16);
@@ -161,7 +164,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(13, 628);
+            this.button2.Location = new System.Drawing.Point(13, 691);
             this.button2.Margin = new System.Windows.Forms.Padding(4);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(29, 28);
@@ -173,7 +176,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(50, 634);
+            this.label4.Location = new System.Drawing.Point(50, 697);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(116, 16);
@@ -189,7 +192,7 @@
             this.toolStripMenuItemCheckForUpdates});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(595, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(670, 28);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -198,8 +201,7 @@
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemTurnOffControlOnExit,
             this.toolStripMenuItemForbidUnsafeSettings,
-            this.allowFanCurveSettingViaTextToolStripMenuItem,
-            this.resetToDefaultsToolStripMenuItem});
+            this.allowFanCurveSettingViaTextToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 24);
             this.toolStripMenuItem1.Text = "Advanced";
@@ -228,20 +230,16 @@
             this.allowFanCurveSettingViaTextToolStripMenuItem.Text = "Allow FanCurve Seting via Text";
             this.allowFanCurveSettingViaTextToolStripMenuItem.Click += new System.EventHandler(this.allowFanCurveSettingViaTextToolStripMenuItem_Click);
             // 
-            // resetToDefaultsToolStripMenuItem
-            // 
-            this.resetToDefaultsToolStripMenuItem.Name = "resetToDefaultsToolStripMenuItem";
-            this.resetToDefaultsToolStripMenuItem.Size = new System.Drawing.Size(293, 26);
-            this.resetToDefaultsToolStripMenuItem.Text = "Reset to defaults";
-            this.resetToDefaultsToolStripMenuItem.Click += new System.EventHandler(this.resetToDefaultsToolStripMenuItem_Click);
-            // 
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.startupSettingsToolStripMenuItem});
+            this.startupSettingsToolStripMenuItem,
+            this.restartApplicationToolStripMenuItem,
+            this.resetToDefaultsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(75, 24);
             this.optionsToolStripMenuItem.Text = "Options";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
             // 
             // startupSettingsToolStripMenuItem
             // 
@@ -249,8 +247,8 @@
             this.startMinimisedToolStripMenuItem,
             this.startWithWindowsToolStripMenuItem});
             this.startupSettingsToolStripMenuItem.Name = "startupSettingsToolStripMenuItem";
-            this.startupSettingsToolStripMenuItem.Size = new System.Drawing.Size(197, 26);
-            this.startupSettingsToolStripMenuItem.Text = "Startup Settings";
+            this.startupSettingsToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
+            this.startupSettingsToolStripMenuItem.Text = "Startup settings";
             // 
             // startMinimisedToolStripMenuItem
             // 
@@ -268,6 +266,20 @@
             this.startWithWindowsToolStripMenuItem.Text = "Start with Windows";
             this.startWithWindowsToolStripMenuItem.Click += new System.EventHandler(this.startWithWindowsToolStripMenuItem1_Click_1);
             // 
+            // restartApplicationToolStripMenuItem
+            // 
+            this.restartApplicationToolStripMenuItem.Name = "restartApplicationToolStripMenuItem";
+            this.restartApplicationToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
+            this.restartApplicationToolStripMenuItem.Text = "Restart application";
+            this.restartApplicationToolStripMenuItem.Click += new System.EventHandler(this.restartApplicationToolStripMenuItem_Click);
+            // 
+            // resetToDefaultsToolStripMenuItem
+            // 
+            this.resetToDefaultsToolStripMenuItem.Name = "resetToDefaultsToolStripMenuItem";
+            this.resetToDefaultsToolStripMenuItem.Size = new System.Drawing.Size(217, 26);
+            this.resetToDefaultsToolStripMenuItem.Text = "Reset to defaults";
+            this.resetToDefaultsToolStripMenuItem.Click += new System.EventHandler(this.resetToDefaultsToolStripMenuItem_Click);
+            // 
             // toolStripMenuItemCheckForUpdates
             // 
             this.toolStripMenuItemCheckForUpdates.Name = "toolStripMenuItemCheckForUpdates";
@@ -278,7 +290,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(349, 67);
+            this.label5.Location = new System.Drawing.Point(475, 67);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(61, 16);
             this.label5.TabIndex = 13;
@@ -288,7 +300,7 @@
             // 
             this.pictureBoxFanCurve.Location = new System.Drawing.Point(13, 225);
             this.pictureBoxFanCurve.Name = "pictureBoxFanCurve";
-            this.pictureBoxFanCurve.Size = new System.Drawing.Size(573, 258);
+            this.pictureBoxFanCurve.Size = new System.Drawing.Size(645, 312);
             this.pictureBoxFanCurve.TabIndex = 0;
             this.pictureBoxFanCurve.TabStop = false;
             this.pictureBoxFanCurve.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBoxFanCurve_Paint);
@@ -307,7 +319,7 @@
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Location = new System.Drawing.Point(12, 37);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(574, 182);
+            this.groupBox1.Size = new System.Drawing.Size(644, 182);
             this.groupBox1.TabIndex = 14;
             this.groupBox1.TabStop = false;
             // 
@@ -315,7 +327,7 @@
             // 
             this.radioButton1.AutoSize = true;
             this.radioButton1.Checked = true;
-            this.radioButton1.Location = new System.Drawing.Point(20, 31);
+            this.radioButton1.Location = new System.Drawing.Point(17, 27);
             this.radioButton1.Name = "radioButton1";
             this.radioButton1.Size = new System.Drawing.Size(72, 20);
             this.radioButton1.TabIndex = 16;
@@ -327,7 +339,7 @@
             // fanControl
             // 
             this.fanControl.AutoSize = true;
-            this.fanControl.Location = new System.Drawing.Point(20, 67);
+            this.fanControl.Location = new System.Drawing.Point(17, 67);
             this.fanControl.Name = "fanControl";
             this.fanControl.Size = new System.Drawing.Size(137, 20);
             this.fanControl.TabIndex = 15;
@@ -338,7 +350,7 @@
             // fanCurve
             // 
             this.fanCurve.AutoSize = true;
-            this.fanCurve.Location = new System.Drawing.Point(20, 148);
+            this.fanCurve.Location = new System.Drawing.Point(17, 150);
             this.fanCurve.Name = "fanCurve";
             this.fanCurve.Size = new System.Drawing.Size(130, 20);
             this.fanCurve.TabIndex = 14;
@@ -348,7 +360,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(553, 489);
+            this.button3.Location = new System.Drawing.Point(623, 552);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(33, 27);
             this.button3.TabIndex = 22;
@@ -359,7 +371,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(13, 489);
+            this.button4.Location = new System.Drawing.Point(13, 552);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(35, 27);
             this.button4.TabIndex = 23;
@@ -434,9 +446,9 @@
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.numericUpDown1);
             this.groupBox2.Controls.Add(this.label6);
-            this.groupBox2.Location = new System.Drawing.Point(364, 569);
+            this.groupBox2.Location = new System.Drawing.Point(442, 629);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(214, 87);
+            this.groupBox2.Size = new System.Drawing.Size(214, 95);
             this.groupBox2.TabIndex = 19;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Advanced";
@@ -498,9 +510,9 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(12, 688);
+            this.label3.Location = new System.Drawing.Point(12, 755);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(574, 16);
+            this.label3.Size = new System.Drawing.Size(645, 16);
             this.label3.TabIndex = 20;
             this.label3.Text = ".";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -508,10 +520,10 @@
             // textBox1
             // 
             this.textBox1.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(53, 489);
+            this.textBox1.Location = new System.Drawing.Point(53, 552);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(494, 27);
+            this.textBox1.Size = new System.Drawing.Size(564, 27);
             this.textBox1.TabIndex = 21;
             this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             this.textBox1.MouseHover += new System.EventHandler(this.textBox1_MouseHover);
@@ -519,24 +531,24 @@
             // label10
             // 
             this.label10.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label10.Location = new System.Drawing.Point(12, 677);
+            this.label10.Location = new System.Drawing.Point(12, 740);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(574, 2);
+            this.label10.Size = new System.Drawing.Size(645, 2);
             this.label10.TabIndex = 24;
             // 
             // label11
             // 
             this.label11.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.label11.Location = new System.Drawing.Point(15, 542);
+            this.label11.Location = new System.Drawing.Point(15, 605);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(574, 2);
+            this.label11.Size = new System.Drawing.Size(645, 2);
             this.label11.TabIndex = 25;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(595, 716);
+            this.ClientSize = new System.Drawing.Size(670, 786);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button4);
@@ -618,7 +630,6 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.ToolStripMenuItem resetToDefaultsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem allowFanCurveSettingViaTextToolStripMenuItem;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
@@ -626,6 +637,8 @@
         private System.Windows.Forms.ToolStripMenuItem startMinimisedToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startWithWindowsToolStripMenuItem;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ToolStripMenuItem restartApplicationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem resetToDefaultsToolStripMenuItem;
     }
 }
 

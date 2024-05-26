@@ -142,5 +142,29 @@ namespace AsusFanControlGUI.Properties {
                 this["updateSpeed"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool wasError {
+            get {
+                return ((bool)(this["wasError"]));
+            }
+            set {
+                this["wasError"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string errorMsg {
+            get {
+                return ((string)(this["errorMsg"]));
+            }
+            set {
+                this["errorMsg"] = value;
+            }
+        }
     }
 }
