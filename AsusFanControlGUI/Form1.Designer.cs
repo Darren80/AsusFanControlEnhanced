@@ -34,10 +34,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.labelValue = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
             this.labelRPM = new System.Windows.Forms.Label();
             this.labelCPUTemp = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -124,28 +122,17 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(50, 661);
+            this.label2.Location = new System.Drawing.Point(13, 658);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(85, 16);
             this.label2.TabIndex = 3;
             this.label2.Text = "Current RPM:";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(13, 655);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(29, 28);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "↻";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // labelRPM
             // 
             this.labelRPM.AutoSize = true;
-            this.labelRPM.Location = new System.Drawing.Point(153, 661);
+            this.labelRPM.Location = new System.Drawing.Point(115, 658);
             this.labelRPM.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelRPM.Name = "labelRPM";
             this.labelRPM.Size = new System.Drawing.Size(11, 16);
@@ -155,28 +142,17 @@
             // labelCPUTemp
             // 
             this.labelCPUTemp.AutoSize = true;
-            this.labelCPUTemp.Location = new System.Drawing.Point(185, 697);
+            this.labelCPUTemp.Location = new System.Drawing.Point(137, 687);
             this.labelCPUTemp.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.labelCPUTemp.Name = "labelCPUTemp";
             this.labelCPUTemp.Size = new System.Drawing.Size(11, 16);
             this.labelCPUTemp.TabIndex = 9;
             this.labelCPUTemp.Text = "-";
             // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(13, 691);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(29, 28);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "↻";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(50, 697);
+            this.label4.Location = new System.Drawing.Point(13, 685);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(116, 16);
@@ -558,10 +534,8 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pictureBoxFanCurve);
             this.Controls.Add(this.labelCPUTemp);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.labelRPM);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelValue);
             this.Controls.Add(this.label1);
@@ -597,10 +571,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelValue;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Label labelRPM;
         private System.Windows.Forms.Label labelCPUTemp;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;

@@ -126,6 +126,7 @@ namespace AsusFanControlGUI
             labelRPM.Text = fanSpeedsTask.Result;
             labelCPUTemp.Text = cpuTempTask.Result;
             currentTemp = (ulong)Decimal.Parse(cpuTempTask.Result);
+            pictureBoxFanCurve.Invalidate();
             startErrorHandler();
 
             await Task.Delay(250);
@@ -359,6 +360,18 @@ namespace AsusFanControlGUI
                 thickPen.LineJoin = LineJoin.Round;
                 g.DrawLines(thickPen, graphPoints);
             }
+            // Map currentTemp from range 20-100 to range 40-444
+            double mappedValue = 40 + ((currentTemp - 20) / 80.0) * (444 - 40);
+
+            // Ensure mappedValue stays within the range 40-444
+            mappedValue = Math.Max(40, Math.Min(444, mappedValue));
+
+            // Calculate the x-coordinate for drawing the line
+            int redLineX = (int)mappedValue;
+
+            // Draw the red line using the calculated x-coordinate
+            g.DrawLine(Pens.Red, redLineX, 40, redLineX, pictureBoxFanCurve.Height - 40);
+
         }
 
         private void pictureBoxFanCurve_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -586,7 +599,7 @@ namespace AsusFanControlGUI
                 lastTemperature = (int)temp;
 
             }
-
+           
             if (!runOnce)
             {
                 await Task.Delay((int)numericUpDown2.Value);
