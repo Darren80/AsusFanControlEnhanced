@@ -42,6 +42,7 @@
             this.toolStripMenuItemTurnOffControlOnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemForbidUnsafeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.allowFanCurveSettingViaTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.autoSwitchBetweenBatteryProfilesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startupSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startMinimisedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +75,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.radioButton4 = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFanSpeed)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFanCurve)).BeginInit();
@@ -177,7 +180,8 @@
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItemTurnOffControlOnExit,
             this.toolStripMenuItemForbidUnsafeSettings,
-            this.allowFanCurveSettingViaTextToolStripMenuItem});
+            this.allowFanCurveSettingViaTextToolStripMenuItem,
+            this.autoSwitchBetweenBatteryProfilesToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 24);
             this.toolStripMenuItem1.Text = "Advanced";
@@ -205,6 +209,14 @@
             this.allowFanCurveSettingViaTextToolStripMenuItem.Size = new System.Drawing.Size(293, 26);
             this.allowFanCurveSettingViaTextToolStripMenuItem.Text = "Allow FanCurve Seting via Text";
             this.allowFanCurveSettingViaTextToolStripMenuItem.Click += new System.EventHandler(this.allowFanCurveSettingViaTextToolStripMenuItem_Click);
+            // 
+            // autoSwitchBetweenBatteryProfilesToolStripMenuItem
+            // 
+            this.autoSwitchBetweenBatteryProfilesToolStripMenuItem.CheckOnClick = true;
+            this.autoSwitchBetweenBatteryProfilesToolStripMenuItem.Name = "autoSwitchBetweenBatteryProfilesToolStripMenuItem";
+            this.autoSwitchBetweenBatteryProfilesToolStripMenuItem.Size = new System.Drawing.Size(293, 26);
+            this.autoSwitchBetweenBatteryProfilesToolStripMenuItem.Text = "Auto switch Power profile";
+            this.autoSwitchBetweenBatteryProfilesToolStripMenuItem.Click += new System.EventHandler(this.autoSwitchBetweenBatteryProfilesToolStripMenuItem_Click);
             // 
             // optionsToolStripMenuItem
             // 
@@ -520,11 +532,36 @@
             this.label11.Size = new System.Drawing.Size(645, 2);
             this.label11.TabIndex = 25;
             // 
+            // radioButton2
+            // 
+            this.radioButton2.AutoSize = true;
+            this.radioButton2.Location = new System.Drawing.Point(500, 242);
+            this.radioButton2.Name = "radioButton2";
+            this.radioButton2.Size = new System.Drawing.Size(108, 20);
+            this.radioButton2.TabIndex = 26;
+            this.radioButton2.Text = "Battery Curve";
+            this.radioButton2.UseVisualStyleBackColor = true;
+            this.radioButton2.CheckedChanged += new System.EventHandler(this.radioButton2_CheckedChanged);
+            // 
+            // radioButton4
+            // 
+            this.radioButton4.AutoSize = true;
+            this.radioButton4.Checked = true;
+            this.radioButton4.Location = new System.Drawing.Point(381, 242);
+            this.radioButton4.Name = "radioButton4";
+            this.radioButton4.Size = new System.Drawing.Size(104, 20);
+            this.radioButton4.TabIndex = 28;
+            this.radioButton4.TabStop = true;
+            this.radioButton4.Text = "Power Curve";
+            this.radioButton4.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(670, 786);
+            this.Controls.Add(this.radioButton4);
+            this.Controls.Add(this.radioButton2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.button4);
@@ -611,6 +648,9 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ToolStripMenuItem restartApplicationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetToDefaultsToolStripMenuItem;
+        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.ToolStripMenuItem autoSwitchBetweenBatteryProfilesToolStripMenuItem;
+        private System.Windows.Forms.RadioButton radioButton4;
     }
 }
 

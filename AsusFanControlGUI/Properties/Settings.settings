@@ -14,8 +14,8 @@
     <Setting Name="fanControlState" Type="System.String" Scope="User">
       <Value Profile="(Default)">Off</Value>
     </Setting>
-    <Setting Name="FanCurvePoints" Type="System.String" Scope="User">
-      <Value Profile="(Default)">20,1-60,1-61,20-70,20-71,30-80,55</Value>
+    <Setting Name="FanCurvePointsPower" Type="System.String" Scope="User">
+      <Value Profile="(Default)">20,40-30,40-40,40-50,40-60,40-70,40-80,40-90,40-100,40</Value>
     </Setting>
     <Setting Name="allowFanCurveSettingViaText" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -37,6 +37,12 @@
     </Setting>
     <Setting Name="errorMsg" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="FanCurvePointsBattery" Type="System.String" Scope="User">
+      <Value Profile="(Default)">20,40-30,40-40,40-50,40-60,40-70,40-80,40-90,40-100,40</Value>
+    </Setting>
+    <Setting Name="autoSwitchBetweenBatteryProfiles" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>
