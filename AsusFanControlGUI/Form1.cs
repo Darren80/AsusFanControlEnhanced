@@ -66,13 +66,22 @@ namespace AsusFanControlGUI
 
                 Properties.Settings.Default.PropertyChanged += (sender, e) =>
                 {
-                    if (e.PropertyName == "FanCurvePoints")
+                    if (e.PropertyName == "FanCurvePointsBattery")
+                    {
+                        textBox1.Text = Properties.Settings.Default.FanCurvePointsBattery;
+                    }
+                    else if (e.PropertyName == "FanCurvePointsPower")
                     {
                         textBox1.Text = Properties.Settings.Default.FanCurvePointsPower;
                     }
                 };
-                SetFanCurvePoints(null);
-                //SetFanCurvePoints("20,1;60,1;61,20;70,20;71,30;80,55");
+
+                string powerOrBattery = isRunningOnBattery ? "Battery" : "Power";
+
+                string curvePoints = Properties.Settings.Default["FanCurvePoints" + powerOrBattery].ToString();
+
+                SetFanCurvePoints(curvePoints);
+
                 Timer_Tick();
             }
             else
@@ -214,6 +223,9 @@ namespace AsusFanControlGUI
                 Properties.Settings.Default.fanControlState = "Off";
                 Properties.Settings.Default.Save();
 
+                radioButton2.Enabled = false;
+                radioButton4.Enabled = false;
+
                 notifyIcon1.Text = $"AsusFanControlEnhanced - Off";
                 setFanSpeed(0, null);
             }
@@ -226,6 +238,9 @@ namespace AsusFanControlGUI
                 Properties.Settings.Default.fanControlState = "Manual";
                 Properties.Settings.Default.Save();
                 trackBarFanSpeed.Enabled = true;
+
+                radioButton2.Enabled = false;
+                radioButton4.Enabled = false;
 
                 trackBarSetFanSpeed();
                 await Task.Delay(2000);
@@ -561,6 +576,9 @@ namespace AsusFanControlGUI
         {
             Properties.Settings.Default.fanControlState = "Curve";
             Properties.Settings.Default.Save();
+
+            radioButton2.Enabled = true;
+            radioButton4.Enabled = true;
             Console.WriteLine(fanCurve.Checked);
             runFanCurve();
         }
