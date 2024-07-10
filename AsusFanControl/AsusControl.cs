@@ -1,9 +1,5 @@
 ﻿using AsusSystemAnalysis;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AsusFanControl
 {
@@ -35,7 +31,7 @@ namespace AsusFanControl
         public void SetFanSpeeds(byte value)
         {
             var fanCount = AsusWinIO64.HealthyTable_FanCounts();
-            for(byte fanIndex = 0; fanIndex < fanCount; fanIndex++)
+            for (byte fanIndex = 0; fanIndex < fanCount; fanIndex++)
             {
                 SetFanSpeed(value, fanIndex);
             }

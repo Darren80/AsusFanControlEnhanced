@@ -1,22 +1,17 @@
-﻿using System;
+﻿using AsusFanControl;
+using AsusFanControlGUI.Properties;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Reflection;
-using System.Security.AccessControl;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using AsusFanControl;
-using AsusFanControlGUI.Properties;
-using Microsoft.Win32;
-using static System.Security.Cryptography.ECCurve;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static AsusFanControlGUI.Form1;
+
 
 namespace AsusFanControlGUI
 {
@@ -27,13 +22,20 @@ namespace AsusFanControlGUI
         int currentFanSpeed = 0;
         ulong currentTemp = 0;
 
+
+        Boolean isRunningOnBattery = false;
+        Boolean hasPointChanged = false;
+
+
+
+
         public Form1()
         {
             InitializeComponent();
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(OnProcessExit);
 
-            //if (Debugger.IsAttached)
-            //     Settings.Default.Reset();
+            if (Debugger.IsAttached)
+                Settings.Default.Reset();
 
             init();
         }
@@ -55,6 +57,7 @@ namespace AsusFanControlGUI
                 allowFanCurveSettingViaTextToolStripMenuItem.Checked = Properties.Settings.Default.allowFanCurveSettingViaText;
                 numericUpDown1.Value = Properties.Settings.Default.hysteresis;
                 numericUpDown2.Value = Properties.Settings.Default.updateSpeed;
+                autoSwitchBetweenBatteryProfilesToolStripMenuItem.Checked = Properties.Settings.Default.autoSwitchBetweenBatteryProfiles;
                 // Manually trigger events
                 radioButton1_CheckedChanged(radioButton1, EventArgs.Empty);
                 fanCurve_CheckedChanged(fanCurve, EventArgs.Empty);
@@ -63,13 +66,22 @@ namespace AsusFanControlGUI
 
                 Properties.Settings.Default.PropertyChanged += (sender, e) =>
                 {
-                    if (e.PropertyName == "FanCurvePoints")
+                    if (e.PropertyName == "FanCurvePointsBattery")
                     {
-                        textBox1.Text = Properties.Settings.Default.FanCurvePoints;
+                        textBox1.Text = Properties.Settings.Default.FanCurvePointsBattery;
+                    }
+                    else if (e.PropertyName == "FanCurvePointsPower")
+                    {
+                        textBox1.Text = Properties.Settings.Default.FanCurvePointsPower;
                     }
                 };
-                SetFanCurvePoints(null);
-                //SetFanCurvePoints("20,1;60,1;61,20;70,20;71,30;80,55");
+
+                string powerOrBattery = isRunningOnBattery ? "Battery" : "Power";
+
+                string curvePoints = Properties.Settings.Default["FanCurvePoints" + powerOrBattery].ToString();
+
+                SetFanCurvePoints(curvePoints);
+
                 Timer_Tick();
             }
             else
@@ -77,6 +89,17 @@ namespace AsusFanControlGUI
                 // Restart the init function after a short delay
                 await System.Threading.Tasks.Task.Delay(20);
                 init();
+            }
+
+            if (autoSwitchBetweenBatteryProfilesToolStripMenuItem.Checked)
+            {
+                radioButton2.Enabled = false;
+                radioButton4.Enabled = false;
+            }
+            else
+            {
+                radioButton2.Enabled = true;
+                radioButton4.Enabled = true;
             }
         }
 
@@ -113,6 +136,26 @@ namespace AsusFanControlGUI
                 return;
             }
 
+
+            if (Settings.Default.autoSwitchBetweenBatteryProfiles)
+            {
+                SaveFanCurvePoints();
+                isRunningOnBattery = SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Offline;
+                Console.WriteLine("is running on battery: " + isRunningOnBattery);
+                if (isRunningOnBattery)
+                {
+
+                    radioButton2.Checked = true;
+                }
+                else
+                {
+                    radioButton4.Checked = true;
+
+                }
+            }
+
+
+
             //Console.WriteLine($"Refreshing {rnd.Next(100)}");
             // Update fan speeds and CPU temperature.
             // Run both tasks concurrently
@@ -126,6 +169,7 @@ namespace AsusFanControlGUI
             labelRPM.Text = fanSpeedsTask.Result;
             labelCPUTemp.Text = cpuTempTask.Result;
             currentTemp = (ulong)Decimal.Parse(cpuTempTask.Result);
+            pictureBoxFanCurve.Invalidate();
             startErrorHandler();
 
             await Task.Delay(250);
@@ -151,8 +195,8 @@ namespace AsusFanControlGUI
 
         private void OnProcessExit(object sender, EventArgs e)
         {
-        //    if (Properties.Settings.Default.turnOffControlOnExit)
-        //        asusControl.SetFanSpeeds(0);
+            //    if (Properties.Settings.Default.turnOffControlOnExit)
+            //        asusControl.SetFanSpeeds(0);
         }
 
         private void toolStripMenuItemTurnOffControlOnExit_CheckedChanged(object sender, EventArgs e)
@@ -179,6 +223,9 @@ namespace AsusFanControlGUI
                 Properties.Settings.Default.fanControlState = "Off";
                 Properties.Settings.Default.Save();
 
+                radioButton2.Enabled = false;
+                radioButton4.Enabled = false;
+
                 notifyIcon1.Text = $"AsusFanControlEnhanced - Off";
                 setFanSpeed(0, null);
             }
@@ -191,6 +238,9 @@ namespace AsusFanControlGUI
                 Properties.Settings.Default.fanControlState = "Manual";
                 Properties.Settings.Default.Save();
                 trackBarFanSpeed.Enabled = true;
+
+                radioButton2.Enabled = false;
+                radioButton4.Enabled = false;
 
                 trackBarSetFanSpeed();
                 await Task.Delay(2000);
@@ -277,12 +327,15 @@ namespace AsusFanControlGUI
         private Point minPoint;
         private Dictionary<int, Point> fanCurvePoints = new Dictionary<int, Point>()
         {
-            { 1, new Point(20, 1) },
-            { 4, new Point(60, 1) },
-            { 5, new Point(61, 20) },
-            { 7, new Point(70, 20) },
-            { 8, new Point(71, 30) },
-            { 9, new Point(80, 55) },
+            { 1, new Point(20, 40) },
+            { 2, new Point(30, 40) },
+            { 3, new Point(40, 40) },
+            { 4, new Point(50, 40) },
+            { 5, new Point(60, 40) },
+            { 6, new Point(70, 40) },
+            { 7, new Point(80, 40) },
+            { 8, new Point(90, 40) },
+            { 9, new Point(100, 40) },
         };
         private Timer fanCurveTimer; // Declare the timer as a class-level variable
 
@@ -359,6 +412,18 @@ namespace AsusFanControlGUI
                 thickPen.LineJoin = LineJoin.Round;
                 g.DrawLines(thickPen, graphPoints);
             }
+            // Map currentTemp from range 20-100 to range 40-444
+            double mappedValue = 40 + ((currentTemp - 20) / 80.0) * (444 - 40);
+
+            // Ensure mappedValue stays within the range 40-444
+            mappedValue = Math.Max(40, Math.Min(444, mappedValue));
+
+            // Calculate the x-coordinate for drawing the line
+            int redLineX = (int)mappedValue;
+
+            // Draw the red line using the calculated x-coordinate
+            g.DrawLine(Pens.Red, redLineX, 40, redLineX, pictureBoxFanCurve.Height - 40);
+
         }
 
         private void pictureBoxFanCurve_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -492,6 +557,7 @@ namespace AsusFanControlGUI
         {
             selectedPointId = 0;
             toolTip1.SetToolTip(pictureBoxFanCurve, "Fan Curve Graph");
+            hasPointChanged = true;
             SaveFanCurvePoints();
             runFanCurve(true, true);
 
@@ -510,6 +576,9 @@ namespace AsusFanControlGUI
         {
             Properties.Settings.Default.fanControlState = "Curve";
             Properties.Settings.Default.Save();
+
+            radioButton2.Enabled = true;
+            radioButton4.Enabled = true;
             Console.WriteLine(fanCurve.Checked);
             runFanCurve();
         }
@@ -543,16 +612,17 @@ namespace AsusFanControlGUI
                 Console.WriteLine("Temperature is outside the range, yield control to the system.");
                 notifyIcon1.Text = $"AsusFanControlEnhanced - Off";
                 return 0;
-            }else
+            }
+            else
             {
-                
+
             }
 
             double ratio = (currentTemp - lowerPoint.Value.X) / (upperPoint.Value.X - lowerPoint.Value.X);
             return lowerPoint.Value.Y + (upperPoint.Value.Y - lowerPoint.Value.Y) * ratio;
         }
 
-        private async void runFanCurve(bool bypassHysteresisCheck=false, bool runOnce=false)
+        private async void runFanCurve(bool bypassHysteresisCheck = false, bool runOnce = false)
         {
             if (!fanCurve.Checked)
             {
@@ -609,8 +679,8 @@ namespace AsusFanControlGUI
 
         public void MinimizeToTray()
         {
-                this.Hide();
-                notifyIcon1.Visible = true;
+            this.Hide();
+            notifyIcon1.Visible = true;
         }
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
@@ -639,52 +709,49 @@ namespace AsusFanControlGUI
 
         private void SaveFanCurvePoints()
         {
+            if (!hasPointChanged) return;
+
             string fanCurvePointsString = string.Join("-", fanCurvePoints.OrderBy(x => x.Value.X).Select(x => $"{x.Value.X},{x.Value.Y}"));
+            string powerOrBattery = isRunningOnBattery ? "Battery" : "Power";
 
-            Properties.Settings.Default.FanCurvePoints = fanCurvePointsString;
+            Console.WriteLine($"Saving Fan Curve Points for {powerOrBattery}: {fanCurvePointsString} |||| {Properties.Settings.Default["FanCurvePoints" + powerOrBattery]}");
+            Properties.Settings.Default["FanCurvePoints" + powerOrBattery] = fanCurvePointsString;
             Properties.Settings.Default.Save();
+            textBox1.Text = fanCurvePointsString;
 
-            Console.WriteLine(fanCurvePointsString);
+            hasPointChanged = false;
+            Console.WriteLine($"{powerOrBattery} SAVED");
         }
 
         private void SetFanCurvePoints(String? fanCurveString)
         {
-            int count = 1;
-            string fanCurvePointsString = fanCurveString ?? Properties.Settings.Default.FanCurvePoints;
-            Console.WriteLine(fanCurvePointsString);
-
-            if (string.IsNullOrEmpty(fanCurvePointsString))
+            if (string.IsNullOrEmpty(fanCurveString))
             {
                 return;
             }
-            // Parse the string
-            try
-            {
 
-                fanCurvePoints = fanCurvePointsString.Split('-')
-                .Select(x =>
+            fanCurvePoints = fanCurveString.Split('-')
+                .Select((x, index) =>
                 {
                     string[] parts = x.Split(',');
-                    return new KeyValuePair<int, Point>(count++, new Point(int.Parse(parts[0]), int.Parse(parts[1])));
+                    return new KeyValuePair<int, Point>(index + 1, new Point(int.Parse(parts[0]), int.Parse(parts[1])));
                 })
                 .ToDictionary(x => x.Key, x => x.Value);
 
-                //Save
-                textBox1.Text = fanCurvePointsString;
-                SaveFanCurvePoints();
-            }
-            catch (Exception ex) 
-            {
-                throw;
-            }
-
+            textBox1.Text = fanCurveString;
             pictureBoxFanCurve.Invalidate();
         }
 
+
+
         private void button4_Click(object sender, EventArgs e)
         {
-            textBox1.Text = Properties.Settings.Default.FanCurvePoints;
-            SetFanCurvePoints(null);
+            string powerOrBattery = isRunningOnBattery ? "Battery" : "Power";
+
+            textBox1.Text = Properties.Settings.Default["FanCurvePoints" + powerOrBattery].ToString();
+            SetFanCurvePoints(textBox1.Text);
+
+
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -730,7 +797,7 @@ namespace AsusFanControlGUI
                 Properties.Settings.Default.allowFanCurveSettingViaText = true;
                 Properties.Settings.Default.Save();
                 button3.Enabled = true; textBox1.ReadOnly = false; button4.Enabled = true;
-            } 
+            }
             else
             {
                 Properties.Settings.Default.allowFanCurveSettingViaText = false;
@@ -841,7 +908,7 @@ namespace AsusFanControlGUI
 
         private void trackBarFanSpeed_ValueChanged(object sender, EventArgs e)
         {
-            
+
         }
 
         private void trackBarFanSpeed_MouseMove(object sender, MouseEventArgs e)
@@ -850,6 +917,47 @@ namespace AsusFanControlGUI
             {
                 // Show the tooltip
                 toolTip1.Show(trackBarFanSpeed.Value.ToString(), trackBarFanSpeed, 0, -20, 2000);
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e) // Battery
+        {
+            Console.WriteLine("radioButton2.Checked: " + radioButton2.Checked);
+
+            if (radioButton2.Checked)
+            {
+
+                isRunningOnBattery = true;
+                SetFanCurvePoints(Properties.Settings.Default.FanCurvePointsBattery);
+            }
+            else
+            {
+
+                isRunningOnBattery = false;
+                SetFanCurvePoints(Properties.Settings.Default.FanCurvePointsPower);
+
+            }
+
+        }
+
+
+        private void autoSwitchBetweenBatteryProfilesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (autoSwitchBetweenBatteryProfilesToolStripMenuItem.Checked)
+            {
+                Properties.Settings.Default.autoSwitchBetweenBatteryProfiles = true;
+                Properties.Settings.Default.Save();
+
+                radioButton2.Enabled = false;
+                radioButton4.Enabled = false;
+
+            }
+            else
+            {
+                Properties.Settings.Default.autoSwitchBetweenBatteryProfiles = false;
+                Properties.Settings.Default.Save();
+                radioButton2.Enabled = true;
+                radioButton4.Enabled = true;
             }
         }
 
