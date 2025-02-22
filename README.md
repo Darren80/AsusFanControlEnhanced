@@ -5,6 +5,9 @@
 2. Reinstall an older version [ASUSSystemControlInterfaceV3_3.1.38.0.exe](https://github.com/Karmel0x/AsusFanControl/releases/download/v5/ASUSSystemControlInterfaceV3_3.1.38.0.exe)
 3. Restart your computer.
 
+# If your application is still not working.
+The issues are currently under investigation and an updated version of the application with new instructions will be released shortly.
+
 ### Download
 Go to [releases](../../releases)
 
