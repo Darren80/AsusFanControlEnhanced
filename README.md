@@ -1,5 +1,10 @@
 # Asus Fan Control
 
+# If your application has stopped working.
+1. Uninstall device driver "Asus System Control Interface V3", under Device Manager -> System Devices -> Asus System Control Interface V3
+2. Reinstall an older version [ASUSSystemControlInterfaceV3_3.1.38.0.exe](https://github.com/Karmel0x/AsusFanControl/releases/download/v5/ASUSSystemControlInterfaceV3_3.1.38.0.exe)
+3. Restart your computer.
+
 ### Download
 Go to [releases](../../releases)
 
