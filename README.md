@@ -1,16 +1,27 @@
 # Asus Fan Control
 
-# If your application has stopped working.
-1. Uninstall device driver "Asus System Control Interface V3", under Device Manager -> System Devices -> Asus System Control Interface V3
+### Download
+Go to [releases](../../releases)
+
+# Help! My application is not working.
+The most recent update to Asus System Control Interface (V3.1.41.0) has broken some Asus fan control softwares [#44 (comment)](https://github.com/Karmel0x/AsusFanControl/issues/44#issuecomment-2675958931). To restore functionality, you will need to downgrade to version (V3.1.38.0).
+
+Steps:
+1. Go to "Asus System Control Interface V3", under Device Manager -> System Devices -> Asus System Control Interface V3
+2. Right click -> Properties -> Driver tab
+3. Click "Roll Back Driver"
+4. Restart your computer.
+
+If "Roll Back Driver" is unavailable:
+1. click Uninstall Device
 2. Ensure "Attempt to remove the driver for this device." is ticked.
 3. Reinstall an older version by going to [this page](https://github.com/Karmel0x/AsusFanControl/releases/) and installing driver "ASUSSystemControlInterfaceV3_3.1.38.0.exe".
 4. Restart your computer.
 
-# If your application is still not working.
-The issues are currently under investigation and an updated version of the application will be released shortly.
-
-### Download
-Go to [releases](../../releases)
+Temporarily disable driver updates until a permanent fix is found:
+0. If Roll Back Driver worked for you then no need to disable driver updates.
+1. Open Powershell as an Administrator
+2. Run command `REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1`
 
 ### Run
 
@@ -53,3 +64,6 @@ Confirmed compatibility:
 - ASUS TUF F15 - FX506HM
 - ASUS ZenBook 14 UM425QA-KI174W
 - ASUS ROG Strix G512LW
+
+### Re-enable driver updates
+`REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 0`
