@@ -34,14 +34,13 @@
             this.label1 = new System.Windows.Forms.Label();
             this.labelValue = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.RefreshFanRPM = new System.Windows.Forms.Button();
             this.labelRPM = new System.Windows.Forms.Label();
             this.labelCPUTemp = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
+            this.RefreshCPUTemp = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItemTurnOffControlOnExit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemForbidUnsafeSettings = new System.Windows.Forms.ToolStripMenuItem();
             this.allowFanCurveSettingViaTextToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,15 +50,16 @@
             this.restartApplicationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.resetToDefaultsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItemCheckForUpdates = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label5 = new System.Windows.Forms.Label();
             this.pictureBoxFanCurve = new System.Windows.Forms.PictureBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.fanControl = new System.Windows.Forms.RadioButton();
-            this.fanCurve = new System.Windows.Forms.RadioButton();
+            this.fanControlRadioButton = new System.Windows.Forms.RadioButton();
+            this.fanCurveRadioButton = new System.Windows.Forms.RadioButton();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
+            this.ResetCurvePoints = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,9 +73,10 @@
             this.label7 = new System.Windows.Forms.Label();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.CurvePointsTextbox = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.InvisibleLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarFanSpeed)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBoxFanCurve)).BeginInit();
@@ -95,7 +96,7 @@
             this.trackBarFanSpeed.Name = "trackBarFanSpeed";
             this.trackBarFanSpeed.Size = new System.Drawing.Size(519, 56);
             this.trackBarFanSpeed.TabIndex = 0;
-            this.trackBarFanSpeed.Value = 100;
+            this.trackBarFanSpeed.Value = 50;
             this.trackBarFanSpeed.ValueChanged += new System.EventHandler(this.trackBarFanSpeed_ValueChanged);
             this.trackBarFanSpeed.KeyUp += new System.Windows.Forms.KeyEventHandler(this.trackBarFanSpeed_KeyUp);
             this.trackBarFanSpeed.MouseMove += new System.Windows.Forms.MouseEventHandler(this.trackBarFanSpeed_MouseMove);
@@ -131,16 +132,16 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Current RPM:";
             // 
-            // button1
+            // RefreshFanRPM
             // 
-            this.button1.Location = new System.Drawing.Point(13, 655);
-            this.button1.Margin = new System.Windows.Forms.Padding(4);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(29, 28);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "↻";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.RefreshFanRPM.Location = new System.Drawing.Point(13, 655);
+            this.RefreshFanRPM.Margin = new System.Windows.Forms.Padding(4);
+            this.RefreshFanRPM.Name = "RefreshFanRPM";
+            this.RefreshFanRPM.Size = new System.Drawing.Size(29, 28);
+            this.RefreshFanRPM.TabIndex = 4;
+            this.RefreshFanRPM.Text = "↻";
+            this.RefreshFanRPM.UseVisualStyleBackColor = true;
+            this.RefreshFanRPM.Click += new System.EventHandler(this.button1_Click);
             // 
             // labelRPM
             // 
@@ -162,16 +163,16 @@
             this.labelCPUTemp.TabIndex = 9;
             this.labelCPUTemp.Text = "-";
             // 
-            // button2
+            // RefreshCPUTemp
             // 
-            this.button2.Location = new System.Drawing.Point(13, 691);
-            this.button2.Margin = new System.Windows.Forms.Padding(4);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(29, 28);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "↻";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.RefreshCPUTemp.Location = new System.Drawing.Point(13, 691);
+            this.RefreshCPUTemp.Margin = new System.Windows.Forms.Padding(4);
+            this.RefreshCPUTemp.Name = "RefreshCPUTemp";
+            this.RefreshCPUTemp.Size = new System.Drawing.Size(29, 28);
+            this.RefreshCPUTemp.TabIndex = 8;
+            this.RefreshCPUTemp.Text = "↻";
+            this.RefreshCPUTemp.UseVisualStyleBackColor = true;
+            this.RefreshCPUTemp.Click += new System.EventHandler(this.button2_Click);
             // 
             // label4
             // 
@@ -189,30 +190,22 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
             this.optionsToolStripMenuItem,
-            this.toolStripMenuItemCheckForUpdates});
+            this.toolStripMenuItemCheckForUpdates,
+            this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(670, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(685, 28);
             this.menuStrip1.TabIndex = 10;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItemTurnOffControlOnExit,
             this.toolStripMenuItemForbidUnsafeSettings,
             this.allowFanCurveSettingViaTextToolStripMenuItem});
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
             this.toolStripMenuItem1.Size = new System.Drawing.Size(89, 24);
             this.toolStripMenuItem1.Text = "Advanced";
-            // 
-            // toolStripMenuItemTurnOffControlOnExit
-            // 
-            this.toolStripMenuItemTurnOffControlOnExit.CheckOnClick = true;
-            this.toolStripMenuItemTurnOffControlOnExit.Name = "toolStripMenuItemTurnOffControlOnExit";
-            this.toolStripMenuItemTurnOffControlOnExit.Size = new System.Drawing.Size(293, 26);
-            this.toolStripMenuItemTurnOffControlOnExit.Text = "Turn off control on exit";
-            this.toolStripMenuItemTurnOffControlOnExit.CheckedChanged += new System.EventHandler(this.toolStripMenuItemTurnOffControlOnExit_CheckedChanged);
             // 
             // toolStripMenuItemForbidUnsafeSettings
             // 
@@ -287,6 +280,13 @@
             this.toolStripMenuItemCheckForUpdates.Text = "Check for updates";
             this.toolStripMenuItemCheckForUpdates.Click += new System.EventHandler(this.toolStripMenuItemCheckForUpdates_Click);
             // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(64, 24);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -313,8 +313,8 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Controls.Add(this.fanControl);
-            this.groupBox1.Controls.Add(this.fanCurve);
+            this.groupBox1.Controls.Add(this.fanControlRadioButton);
+            this.groupBox1.Controls.Add(this.fanCurveRadioButton);
             this.groupBox1.Controls.Add(this.trackBarFanSpeed);
             this.groupBox1.Controls.Add(this.label5);
             this.groupBox1.Location = new System.Drawing.Point(12, 37);
@@ -336,27 +336,27 @@
             this.radioButton1.UseVisualStyleBackColor = true;
             this.radioButton1.CheckedChanged += new System.EventHandler(this.radioButton1_CheckedChanged);
             // 
-            // fanControl
+            // fanControlRadioButton
             // 
-            this.fanControl.AutoSize = true;
-            this.fanControl.Location = new System.Drawing.Point(17, 67);
-            this.fanControl.Name = "fanControl";
-            this.fanControl.Size = new System.Drawing.Size(137, 20);
-            this.fanControl.TabIndex = 15;
-            this.fanControl.Text = "Turn on fan control";
-            this.fanControl.UseVisualStyleBackColor = true;
-            this.fanControl.CheckedChanged += new System.EventHandler(this.fanControl_CheckedChanged);
+            this.fanControlRadioButton.AutoSize = true;
+            this.fanControlRadioButton.Location = new System.Drawing.Point(17, 67);
+            this.fanControlRadioButton.Name = "fanControlRadioButton";
+            this.fanControlRadioButton.Size = new System.Drawing.Size(137, 20);
+            this.fanControlRadioButton.TabIndex = 15;
+            this.fanControlRadioButton.Text = "Turn on fan control";
+            this.fanControlRadioButton.UseVisualStyleBackColor = true;
+            this.fanControlRadioButton.CheckedChanged += new System.EventHandler(this.fanControl_CheckedChanged);
             // 
-            // fanCurve
+            // fanCurveRadioButton
             // 
-            this.fanCurve.AutoSize = true;
-            this.fanCurve.Location = new System.Drawing.Point(17, 150);
-            this.fanCurve.Name = "fanCurve";
-            this.fanCurve.Size = new System.Drawing.Size(130, 20);
-            this.fanCurve.TabIndex = 14;
-            this.fanCurve.Text = "Turn on fan curve";
-            this.fanCurve.UseVisualStyleBackColor = true;
-            this.fanCurve.CheckedChanged += new System.EventHandler(this.fanCurve_CheckedChanged);
+            this.fanCurveRadioButton.AutoSize = true;
+            this.fanCurveRadioButton.Location = new System.Drawing.Point(17, 150);
+            this.fanCurveRadioButton.Name = "fanCurveRadioButton";
+            this.fanCurveRadioButton.Size = new System.Drawing.Size(130, 20);
+            this.fanCurveRadioButton.TabIndex = 14;
+            this.fanCurveRadioButton.Text = "Turn on fan curve";
+            this.fanCurveRadioButton.UseVisualStyleBackColor = true;
+            this.fanCurveRadioButton.CheckedChanged += new System.EventHandler(this.fanCurve_CheckedChanged);
             // 
             // button3
             // 
@@ -369,16 +369,16 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // button4
+            // ResetCurvePoints
             // 
-            this.button4.Location = new System.Drawing.Point(13, 552);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(35, 27);
-            this.button4.TabIndex = 23;
-            this.button4.Text = "R";
-            this.toolTip1.SetToolTip(this.button4, "Reset");
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
+            this.ResetCurvePoints.Location = new System.Drawing.Point(13, 552);
+            this.ResetCurvePoints.Name = "ResetCurvePoints";
+            this.ResetCurvePoints.Size = new System.Drawing.Size(35, 27);
+            this.ResetCurvePoints.TabIndex = 23;
+            this.ResetCurvePoints.Text = "R";
+            this.toolTip1.SetToolTip(this.ResetCurvePoints, "Reset");
+            this.ResetCurvePoints.UseVisualStyleBackColor = true;
+            this.ResetCurvePoints.Click += new System.EventHandler(this.button4_Click);
             // 
             // notifyIcon1
             // 
@@ -396,6 +396,7 @@
             this.closeToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.Size = new System.Drawing.Size(115, 52);
+            this.contextMenuStrip1.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip1_Opening);
             // 
             // openToolStripMenuItem
             // 
@@ -508,6 +509,10 @@
             this.label7.TabIndex = 21;
             this.label7.Text = "Update Speed:";
             // 
+            // backgroundWorker1
+            // 
+            this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
+            // 
             // label3
             // 
             this.label3.Location = new System.Drawing.Point(12, 755);
@@ -517,16 +522,16 @@
             this.label3.Text = ".";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // textBox1
+            // CurvePointsTextbox
             // 
-            this.textBox1.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(53, 552);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(564, 27);
-            this.textBox1.TabIndex = 21;
-            this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
-            this.textBox1.MouseHover += new System.EventHandler(this.textBox1_MouseHover);
+            this.CurvePointsTextbox.Font = new System.Drawing.Font("Consolas", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CurvePointsTextbox.Location = new System.Drawing.Point(53, 552);
+            this.CurvePointsTextbox.Name = "CurvePointsTextbox";
+            this.CurvePointsTextbox.ReadOnly = true;
+            this.CurvePointsTextbox.Size = new System.Drawing.Size(564, 27);
+            this.CurvePointsTextbox.TabIndex = 21;
+            this.CurvePointsTextbox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
+            this.CurvePointsTextbox.MouseHover += new System.EventHandler(this.textBox1_MouseHover);
             // 
             // label10
             // 
@@ -544,24 +549,36 @@
             this.label11.Size = new System.Drawing.Size(645, 2);
             this.label11.TabIndex = 25;
             // 
+            // InvisibleLabel
+            // 
+            this.InvisibleLabel.AutoSize = true;
+            this.InvisibleLabel.Location = new System.Drawing.Point(103, 225);
+            this.InvisibleLabel.Name = "InvisibleLabel";
+            this.InvisibleLabel.Size = new System.Drawing.Size(56, 16);
+            this.InvisibleLabel.TabIndex = 26;
+            this.InvisibleLabel.Text = "Invisible";
+            this.InvisibleLabel.Visible = false;
+            this.InvisibleLabel.Click += new System.EventHandler(this.InvisibleLabel_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(670, 786);
+            this.ClientSize = new System.Drawing.Size(685, 786);
+            this.Controls.Add(this.InvisibleLabel);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.label10);
-            this.Controls.Add(this.button4);
+            this.Controls.Add(this.ResetCurvePoints);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.CurvePointsTextbox);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pictureBoxFanCurve);
             this.Controls.Add(this.labelCPUTemp);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.RefreshCPUTemp);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.labelRPM);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.RefreshFanRPM);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.labelValue);
             this.Controls.Add(this.label1);
@@ -597,21 +614,20 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label labelValue;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button RefreshFanRPM;
         private System.Windows.Forms.Label labelRPM;
         private System.Windows.Forms.Label labelCPUTemp;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button RefreshCPUTemp;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemTurnOffControlOnExit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemForbidUnsafeSettings;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemCheckForUpdates;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.PictureBox pictureBoxFanCurve;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.RadioButton fanCurve;
-        private System.Windows.Forms.RadioButton fanControl;
+        private System.Windows.Forms.RadioButton fanCurveRadioButton;
+        private System.Windows.Forms.RadioButton fanControlRadioButton;
         private System.Windows.Forms.ToolTip toolTip1;
         private System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
@@ -627,9 +643,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.NumericUpDown numericUpDown2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox CurvePointsTextbox;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Button ResetCurvePoints;
         private System.Windows.Forms.ToolStripMenuItem allowFanCurveSettingViaTextToolStripMenuItem;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
@@ -639,6 +655,8 @@
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.ToolStripMenuItem restartApplicationToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem resetToDefaultsToolStripMenuItem;
+        private System.Windows.Forms.Label InvisibleLabel;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }
 
