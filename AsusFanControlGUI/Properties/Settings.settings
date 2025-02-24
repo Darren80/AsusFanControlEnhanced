@@ -15,7 +15,7 @@
       <Value Profile="(Default)">Off</Value>
     </Setting>
     <Setting Name="FanCurvePoints" Type="System.String" Scope="User">
-      <Value Profile="(Default)">20,1-60,1-61,20-70,20-71,30-80,55</Value>
+      <Value Profile="(Default)">20,1-60,1-61,20-70,20-71,30-100,100-105,100</Value>
     </Setting>
     <Setting Name="allowFanCurveSettingViaText" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -37,6 +37,9 @@
     </Setting>
     <Setting Name="errorMsg" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="DefaultFanCurvePoints" Type="System.String" Scope="User">
+      <Value Profile="(Default)">20,1-60,1-61,20-70,20-71,30-100,100-105,100</Value>
     </Setting>
   </Settings>
 </SettingsFile>

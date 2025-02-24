@@ -73,7 +73,7 @@ namespace AsusFanControlGUI.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20,1-60,1-61,20-70,20-71,30-80,55")]
+        [global::System.Configuration.DefaultSettingValueAttribute("20,1-60,1-61,20-70,20-71,30-100,100-105,100")]
         public string FanCurvePoints {
             get {
                 return ((string)(this["FanCurvePoints"]));
@@ -164,6 +164,18 @@ namespace AsusFanControlGUI.Properties {
             }
             set {
                 this["errorMsg"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20,1-60,1-61,20-70,20-71,30-100,100-105,100")]
+        public string DefaultFanCurvePoints {
+            get {
+                return ((string)(this["DefaultFanCurvePoints"]));
+            }
+            set {
+                this["DefaultFanCurvePoints"] = value;
             }
         }
     }
