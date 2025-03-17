@@ -5,24 +5,26 @@ Ensure you have the latest version.
 # Help! My application is not working.
 The most recent update to Asus System Control Interface (V3.1.41.0) has broken some Asus fan control softwares [#44 (comment)](https://github.com/Karmel0x/AsusFanControl/issues/44#issuecomment-2675958931). To restore functionality, you will need to downgrade to version (V3.1.38.0).
 
-Steps:
+<ins>Temporarily disable the driver update until a permanent fix is found:</ins>
+1. Disable 'Asus Update Checker 2.0' in Task Scheduler
+![imageedit_2_2180963895](https://github.com/user-attachments/assets/dc429bae-bae6-47c0-b76f-7d6387597431)
+
+2. Open MyAsus, go to Settings, uncheck Automatic updates.
+   
+3. Open Powershell as an Administrator
+4. Run command `REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1`
+
+<ins>Revert to the last known good driver:</ins>
 1. Go to "Asus System Control Interface V3", under Device Manager -> System Devices -> Asus System Control Interface V3
 2. Right click -> Properties -> Driver tab
 3. Click "Roll Back Driver"
 4. Restart your computer.
 
-If "Roll Back Driver" is unavailable:
+<ins>If "Roll Back Driver" is unavailable:</ins>
 1. click Uninstall Device
 2. Ensure "Attempt to remove the driver for this device." is ticked.
 3. Reinstall an older version by going to [this page](https://github.com/Karmel0x/AsusFanControl/releases/) and installing driver "ASUSSystemControlInterfaceV3_3.1.38.0.exe".
 4. Restart your computer.
-
-Temporarily disable driver updates until a permanent fix is found:
-1. Open Powershell as an Administrator
-2. Run command `REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1`
-
-3. Disable 'Asus Update Checker 2.0' in Task Scheduler
-![imageedit_2_2180963895](https://github.com/user-attachments/assets/dc429bae-bae6-47c0-b76f-7d6387597431)
 
 ### Run
 
