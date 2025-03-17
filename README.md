@@ -1,5 +1,3 @@
-# Asus Fan Control
-
 ### Download
 Go to [releases](../../releases).
 Ensure you have the latest version.
@@ -20,9 +18,11 @@ If "Roll Back Driver" is unavailable:
 4. Restart your computer.
 
 Temporarily disable driver updates until a permanent fix is found:
-0. If Roll Back Driver worked for you then no need to disable driver updates.
 1. Open Powershell as an Administrator
 2. Run command `REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1`
+
+3. Disable 'Asus Update Checker 2.0' in Task Scheduler
+![imageedit_2_2180963895](https://github.com/user-attachments/assets/dc429bae-bae6-47c0-b76f-7d6387597431)
 
 ### Run
 
