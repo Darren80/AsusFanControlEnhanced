@@ -1,8 +1,8 @@
-### Download
-Go to [releases](../../releases).
+# Download
+Go to [releases](../../releases).<br />
 Ensure you have the latest version.
 
-# Help! My application is not working.
+## Help! My application is not working.
 The most recent update to Asus System Control Interface (V3.1.41.0) has broken some Asus fan control softwares [#44 (comment)](https://github.com/Karmel0x/AsusFanControl/issues/44#issuecomment-2675958931). To restore functionality, you will need to downgrade to version (V3.1.38.0).
 
 <ins>Temporarily disable the driver update until a permanent fix is found:</ins>
